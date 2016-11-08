@@ -10,7 +10,12 @@
 // @remove-on-eject-end
 
 var path = require('path');
-var autoprefixer = require('autoprefixer');
+var postcssAutoprefixer = require('autoprefixer');
+var postcssCustomProperties = require("postcss-custom-properties");
+var postcssApply = require('postcss-apply');
+var postcssNested = require('postcss-nested');
+var postcssNesting = require('postcss-nesting');
+var postcssImport = require('postcss-import');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -125,6 +130,7 @@ module.exports = {
         query: {
           babelrc: false,
           presets: [require.resolve('babel-preset-react-app')],
+          plugins: [require.resolve('babel-plugin-transform-decorators-legacy')],
         },
         // @remove-on-eject-end
       },
@@ -150,7 +156,7 @@ module.exports = {
         // Webpack 1.x uses Uglify plugin as a signal to minify *all* the assets
         // including CSS. This is confusing and will be removed in Webpack 2:
         // https://github.com/webpack/webpack/issues/283
-        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1&-autoprefixer!postcss')
+        loader: ExtractTextPlugin.extract('style', 'css?modules&-autoprefixer&importLoaders=1!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
@@ -192,7 +198,12 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
-      autoprefixer({
+      postcssImport(),
+      postcssApply(),
+      postcssCustomProperties(),
+      postcssNested(),
+      postcssNesting(),
+      postcssAutoprefixer({
         browsers: [
           '>1%',
           'last 4 versions',

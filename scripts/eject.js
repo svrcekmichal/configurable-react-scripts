@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var createJestConfig = require('../utils/createJestConfig');
+var createJestConfig = require('./createJestConfig');
 var fs = require('fs');
 var path = require('path');
 var prompt = require('react-dev-utils/prompt');

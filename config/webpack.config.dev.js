@@ -10,7 +10,12 @@
 // @remove-on-eject-end
 
 var path = require('path');
-var autoprefixer = require('autoprefixer');
+var postcssAutoprefixer = require('autoprefixer');
+var postcssCustomProperties = require("postcss-custom-properties");
+var postcssApply = require('postcss-apply');
+var postcssNested = require('postcss-nested');
+var postcssNesting = require('postcss-nesting');
+var postcssImport = require('postcss-import');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -119,6 +124,7 @@ module.exports = {
           // @remove-on-eject-begin
           babelrc: false,
           presets: [require.resolve('babel-preset-react-app')],
+          plugins: [require.resolve('babel-plugin-transform-decorators-legacy')],
           // @remove-on-eject-end
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -133,7 +139,7 @@ module.exports = {
       // in development "style" loader enables hot editing of CSS.
       {
         test: /\.css$/,
-        loader: 'style!css?importLoaders=1!postcss'
+        loader: 'style!css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -173,7 +179,12 @@ module.exports = {
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
-      autoprefixer({
+      postcssImport(),
+      postcssApply(),
+      postcssCustomProperties(),
+      postcssNested(),
+      postcssNesting(),
+      postcssAutoprefixer({
         browsers: [
           '>1%',
           'last 4 versions',
