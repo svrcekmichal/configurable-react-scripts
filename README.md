@@ -1,4 +1,4 @@
-# react-scripts
+# react-scripts changed by me, take care, do not use
 
 This package includes scripts and configuration used by [Create React App](https://github.com/facebookincubator/create-react-app).  
 Please refer to its documentation:
