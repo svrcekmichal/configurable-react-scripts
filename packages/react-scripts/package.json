@@ -1,6 +1,6 @@
 {
   "name": "@svrcekmichal/react-scripts",
-  "version": "0.0.0-rc.0",
+  "version": "0.0.1-rc.1",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebookincubator/create-react-app",
   "license": "BSD-3-Clause",
