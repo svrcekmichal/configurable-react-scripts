@@ -50,8 +50,10 @@ module.exports = {
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
+  relaySchema: resolveApp('schema.json'),
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveApp('node_modules'),
+  plugins: resolveApp('plugins'),
   nodePaths: nodePaths
 };
 
@@ -70,9 +72,11 @@ module.exports = {
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
+  relaySchema: resolveApp('schema.json'),
   appNodeModules: resolveApp('node_modules'),
   // this is empty with npm3 but node resolution searches higher anyway:
   ownNodeModules: resolveOwn('../node_modules'),
+  plugins: resolveApp('plugins'),
   nodePaths: nodePaths
 };
 
@@ -87,8 +91,10 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
     appSrc: resolveOwn('../template/src'),
     yarnLockFile: resolveOwn('../template/yarn.lock'),
     testsSetup: resolveOwn('../template/src/setupTests.js'),
+    relaySchema: resolveApp('schema.json'),
     appNodeModules: resolveOwn('../node_modules'),
     ownNodeModules: resolveOwn('../node_modules'),
+    plugins: resolveOwn('../plugins'),
     nodePaths: nodePaths
   };
 }

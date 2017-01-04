@@ -32,7 +32,7 @@ var prompt = require('react-dev-utils/prompt');
 var fs = require('fs');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
-
+var plugins = require('../utils/plugins');
 var useYarn = fs.existsSync(paths.yarnLockFile);
 var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
@@ -293,8 +293,14 @@ function runDevServer(host, port, protocol) {
 function run(port) {
   var protocol = process.env.HTTPS === 'true' ? "https" : "http";
   var host = process.env.HOST || 'localhost';
-  setupCompiler(host, port, protocol);
-  runDevServer(host, port, protocol);
+  plugins.start().then(function(){
+      setupCompiler(host, port, protocol);
+      runDevServer(host, port, protocol);
+  }).catch(function(err){
+      console.error(err);
+      console.log();
+      process.exit(1)
+  })
 }
 
 // We attempt to use the default port but if it is busy, we offer the user to

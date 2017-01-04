@@ -29,7 +29,7 @@ var paths = require('../config/paths');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var recursive = require('recursive-readdir');
 var stripAnsi = require('strip-ansi');
-
+var plugins = require('../utils/plugins');
 var useYarn = fs.existsSync(paths.yarnLockFile);
 
 // Warn and crash if required files are missing
@@ -62,28 +62,37 @@ function getDifferenceLabel(currentSize, previousSize) {
   }
 }
 
-// First, read the current file sizes in build directory.
-// This lets us display how much they changed later.
-recursive(paths.appBuild, (err, fileNames) => {
-  var previousSizeMap = (fileNames || [])
-    .filter(fileName => /\.(js|css)$/.test(fileName))
-    .reduce((memo, fileName) => {
-      var contents = fs.readFileSync(fileName);
-      var key = removeFileNameHash(fileName);
-      memo[key] = gzipSize(contents);
-      return memo;
-    }, {});
+plugins.build().then(function () {
+  // First, read the current file sizes in build directory.
+  // This lets us display how much they changed later.
+  recursive(paths.appBuild, (err, fileNames) => {
+    var previousSizeMap = (fileNames || [])
+      .filter(fileName => /\.(js|css)$/.test(fileName))
+      .reduce((memo, fileName) => {
+        var contents = fs.readFileSync(fileName);
+        var key = removeFileNameHash(fileName);
+        memo[key] = gzipSize(contents);
+        return memo;
+      }, {});
 
-  // Remove all content but keep the directory so that
-  // if you're in it, you don't end up in Trash
-  fs.emptyDirSync(paths.appBuild);
+    // Remove all content but keep the directory so that
+    // if you're in it, you don't end up in Trash
+    fs.emptyDirSync(paths.appBuild);
 
-  // Start the webpack build
-  build(previousSizeMap);
+    // Start the webpack build
+    build(previousSizeMap);
 
-  // Merge with the public folder
-  copyPublicFolder();
-});
+    // Merge with the public folder
+    copyPublicFolder();
+  });
+}).catch(function (err) {
+  console.error(err);
+  console.log();
+  process.exit(1)
+
+})
+
+
 
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {

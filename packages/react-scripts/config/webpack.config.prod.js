@@ -18,6 +18,7 @@ var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
+var relayPlugin = require('../plugins/relay');
 
 // @remove-on-eject-begin
 // `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
@@ -156,6 +157,7 @@ module.exports = {
         query: {
           babelrc: false,
           presets: [require.resolve('babel-preset-react-app')],
+          plugins: relayPlugin.isEnabled() ? [require.resolve('../plugins/relay/babelRelayPlugin')] : [],
         },
         // @remove-on-eject-end
       },
