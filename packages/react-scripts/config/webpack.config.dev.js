@@ -15,6 +15,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+var fs = require('fs-extra');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 var relayPlugin = require('../plugins/relay');
@@ -156,7 +157,8 @@ module.exports = {
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
           plugins: relayPlugin.isEnabled() ? [require.resolve('../plugins/relay/babelRelayPlugin')] : [],
-          cacheDirectory: true
+          cacheDirectory: true,
+          cacheIdentifier: fs.statSync(paths.relaySchema).mtime
         }
       },
       {
