@@ -86,7 +86,8 @@ module.exports = {
   ownNodeModules: resolveApp('node_modules'),
   nodePaths: nodePaths,
   publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json'))
+  servedPath: getServedPath(resolveApp('package.json')),
+  webpackConfig: resolveApp('webpack.config.js'),
 };
 
 // @remove-on-eject-begin
@@ -109,7 +110,8 @@ module.exports = {
   ownNodeModules: resolveOwn('../node_modules'),
   nodePaths: nodePaths,
   publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json'))
+  servedPath: getServedPath(resolveApp('package.json')),
+  webpackConfig: resolveApp('webpack.config.js'),
 };
 
 // config before publish: we're in ./packages/react-scripts/config/
@@ -127,7 +129,8 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
     ownNodeModules: resolveOwn('../node_modules'),
     nodePaths: nodePaths,
     publicUrl: getPublicUrl(resolveOwn('../package.json')),
-    servedPath: getServedPath(resolveOwn('../package.json'))
+    servedPath: getServedPath(resolveOwn('../package.json')),
+    webpackConfig: resolveApp('../template/webpack.config.js'),
   };
 }
 // @remove-on-eject-end

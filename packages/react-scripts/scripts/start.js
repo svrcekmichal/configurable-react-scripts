@@ -61,6 +61,12 @@ if (isSmokeTest) {
 }
 
 function setupCompiler(host, port, protocol) {
+
+  if(fs.existsSync(paths.webpackConfig)) {
+    console.log(chalk.yellow('WARNING! You are using modified webpack config!'));
+    config = require(paths.webpackConfig)(config, true);
+  }
+
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
   compiler = webpack(config, handleCompile);

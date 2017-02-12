@@ -133,6 +133,12 @@ function printErrors(summary, errors) {
 // Create the production build and print the deployment instructions.
 function build(previousSizeMap) {
   console.log('Creating an optimized production build...');
+
+  if(fs.existsSync(paths.webpackConfig)) {
+    console.log(chalk.yellow('Using modified webpack config!'));
+    config = require(paths.webpackConfig)(config, false);
+  }
+
   webpack(config).run((err, stats) => {
     if (err) {
       printErrors('Failed to compile.', [err]);
