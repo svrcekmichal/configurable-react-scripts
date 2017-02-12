@@ -87,7 +87,7 @@ function setupCompiler(host, port, protocol) {
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
   compiler.plugin('done', function(stats) {
-    if (isInteractive) {
+    if (isInteractive && !isFirstCompile) {
       clearConsole();
     }
 
@@ -287,9 +287,6 @@ function runDevServer(host, port, protocol) {
       return console.log(err);
     }
 
-    if (isInteractive) {
-      clearConsole();
-    }
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
